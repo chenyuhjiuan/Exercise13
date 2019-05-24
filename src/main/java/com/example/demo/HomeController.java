@@ -1,15 +1,16 @@
 package com.example.demo;
 
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
 
+//import org.springframework.util.ObjectUtils;
 @Controller
 public class HomeController {
     @Autowired
@@ -20,7 +21,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String listActors(Model model){
-        model.addAttribute("actor", actorRepository.findAll());
+        model.addAttribute("actors", actorRepository.findAll());
         return "list";
     }
 
@@ -31,7 +32,8 @@ public class HomeController {
     }
 
     @PostMapping("/add")
-    public String processActor(@ModelAttribute Actor actor, @RequestParam("file")MultipartFile file){
+    public String processActor(@ModelAttribute Actor actor, @RequestParam("file")MultipartFile file, Model model){
+        model.addAttribute("actor",actor);
         if (file.isEmpty()){
             return "redirect:/add";
         }
